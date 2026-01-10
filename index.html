@@ -13,7 +13,7 @@
         :root {
             --brand-red: #ff0000;
             --brand-blue: #0090e2;
-            --brand-orange: #ff8f00; /* New Orange */
+            --brand-orange: #ff8f00;
             --crust-light: #faf2e9;
             --crust-med: #f0decc;
             --crust-dark: #c0a588;
@@ -27,54 +27,86 @@
         }
 
         body { font-family: 'OneDotCd', sans-serif; background-color: var(--bg-color); margin: 0; padding: 0; color: var(--text-dark); }
-        header { background-color: #005c91; color: white; padding: 16px 20px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 12px rgba(71, 43, 16, 0.15); display: flex; align-items: center; gap: 12px; }
-        .logo { height: 40px; width: auto; }
-        h1 { margin: 0; font-family: 'PizzaPress', serif; font-size: 24px; text-transform: uppercase; }
-        .subtitle { font-family: 'OneDotCd', sans-serif; font-size: 14px; opacity: 0.9; }
+        header { background-color: #005c91; color: white; padding: 12px 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 12px rgba(71, 43, 16, 0.15); display: flex; align-items: center; gap: 12px; }
+        .logo { height: 32px; width: auto; }
+        h1 { margin: 0; font-family: 'PizzaPress', serif; font-size: 20px; text-transform: uppercase; }
+        .subtitle { font-family: 'OneDotCd', sans-serif; font-size: 12px; opacity: 0.9; }
 
+        /* --- CONTROLS (Mobile Optimized) --- */
         .controls {
             padding: 12px 16px;
             background: white;
             border-bottom: 2px solid var(--crust-med);
             display: flex;
-            flex-wrap: wrap; /* Allow wrapping */
+            flex-wrap: wrap; /* Key for wrapping */
             gap: 10px;
-            justify-content: space-between; /* Space them out */
+            align-items: center;
+            justify-content: space-between;
         }
-        
-        /* Make dropdowns full width on tiny screens */
-        @media (max-width: 600px) {
-            select { width: 48%; } /* Side by side */
-            .view-toggle { width: 100%; margin-top: 8px; justify-content: center; }
-            .view-btn { flex: 1; text-align: center; }
+
+        select {
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid var(--crust-dark);
+            background: var(--crust-light);
+            font-family: 'OneDotCd-Bold', sans-serif;
+            font-size: 16px;
+            color: var(--text-dark);
+            flex: 1; /* Grow to fill space */
+            min-width: 120px; /* Don't get too small */
         }
-        select { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--crust-dark); background: var(--crust-light); font-family: 'OneDotCd-Bold', sans-serif; font-size: 16px; color: var(--text-dark); }
-        .view-toggle { display: flex; background: var(--crust-med); border-radius: 8px; padding: 4px; margin-left: auto; }
-        .view-btn { padding: 6px 16px; border: none; background: none; font-family: 'OneDotCd-Bold', sans-serif; font-size: 14px; color: var(--crust-deep); cursor: pointer; border-radius: 6px; text-transform: uppercase; }
+
+        .view-toggle {
+            display: flex;
+            background: var(--crust-med);
+            border-radius: 8px;
+            padding: 4px;
+            margin-left: auto;
+        }
+
+        .view-btn {
+            padding: 8px 16px;
+            border: none;
+            background: none;
+            font-family: 'OneDotCd-Bold', sans-serif;
+            font-size: 14px;
+            color: var(--crust-deep);
+            cursor: pointer;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
         .view-btn.active { background: white; color: var(--brand-blue); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+        /* Mobile Breakpoint */
+        @media (max-width: 600px) {
+            .controls { gap: 8px; }
+            select { font-size: 14px; width: 48%; margin-bottom: 8px; } /* Side by side on top */
+            .view-toggle { width: 100%; justify-content: center; margin-left: 0; }
+            .view-btn { flex: 1; text-align: center; } /* Full width buttons */
+        }
 
         .container { padding: 16px; max-width: 800px; margin: 0 auto; }
         .card { background: var(--card-bg); border-radius: var(--border-radius); padding: 16px; margin-bottom: 12px; box-shadow: 0 4px 6px rgba(71, 43, 16, 0.05); border-left: 6px solid transparent; }
         
-        /* Status Colors */
         .card.status-red { border-left-color: var(--brand-red); }
         .card.status-blue { border-left-color: var(--brand-blue); }
         .card.status-green { border-left-color: #28a745; }
-        .card.status-orange { border-left-color: var(--brand-orange); } /* New */
+        .card.status-orange { border-left-color: var(--brand-orange); }
         .card.status-gray { border-left-color: #999; }
         .card.has-blocker { border: 2px solid var(--brand-red); }
 
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .name { font-family: 'OneDotCd-Bold', sans-serif; font-size: 20px; color: var(--text-dark); }
-        .position-badge { font-family: 'OneDotCd-Bold', sans-serif; font-size: 14px; padding: 4px 10px; border-radius: 12px; background: var(--crust-light); color: #005c91; border: 1px solid var(--crust-med); }
-        .meta-row { display: flex; justify-content: space-between; font-family: 'OneDotCd', sans-serif; font-size: 16px; color: var(--text-light); margin-bottom: 8px; }
-        .main-status { font-family: 'OneDotCd-Bold', sans-serif; font-size: 18px; color: var(--brand-blue); padding-top: 10px; border-top: 1px solid var(--crust-med); }
+        .name { font-family: 'OneDotCd-Bold', sans-serif; font-size: 18px; color: var(--text-dark); }
+        .position-badge { font-family: 'OneDotCd-Bold', sans-serif; font-size: 12px; padding: 4px 8px; border-radius: 12px; background: var(--crust-light); color: #005c91; border: 1px solid var(--crust-med); }
+        .meta-row { display: flex; justify-content: space-between; font-family: 'OneDotCd', sans-serif; font-size: 14px; color: var(--text-light); margin-bottom: 8px; }
+        .main-status { font-family: 'OneDotCd-Bold', sans-serif; font-size: 16px; color: var(--brand-blue); padding-top: 10px; border-top: 1px solid var(--crust-med); }
         
         .gm-appt-box { background-color: #e8f5e9; border: 1px solid #28a745; color: #1b5e20; padding: 10px; border-radius: 8px; margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
-        .gm-appt-label { font-size: 12px; text-transform: uppercase; opacity: 0.8; font-weight: bold; }
-        .gm-appt-time { font-family: 'OneDotCd-Bold', sans-serif; font-size: 18px; }
+        .gm-appt-label { font-size: 11px; text-transform: uppercase; opacity: 0.8; font-weight: bold; }
+        .gm-appt-time { font-family: 'OneDotCd-Bold', sans-serif; font-size: 16px; }
 
-        .notes-section { font-size: 15px; margin-top: 8px; color: var(--text-light); background: #f9f9f9; padding: 6px; border-radius: 6px; border-left: 3px solid #ccc; }
+        .notes-section { font-size: 14px; margin-top: 8px; color: var(--text-light); background: #f9f9f9; padding: 6px; border-radius: 6px; border-left: 3px solid #ccc; }
         .loader { text-align: center; padding: 40px; color: var(--crust-dark); font-family: 'PizzaPress', serif; font-size: 18px; }
         .hidden { display: none; }
     </style>
@@ -189,22 +221,18 @@
 
         filtered.forEach(item => {
             const icon = (item.position.includes('DE')) ? '🚗' : '🍕';
-            
-            // --- COLOR LOGIC ---
             let statusColor = 'status-blue';
             if(item.status.includes('No Show') || item.status.includes('Canceled') || item.status.includes('Pass')) statusColor = 'status-red';
-            if(item.status.includes('2nd Interview') || item.status.includes('Hired')) statusColor = 'status-green';
-            if(item.status.includes('Offered') || item.status.includes('TBD')) statusColor = 'status-orange'; // Pending/Offered
+            if(item.status.includes('2nd Interview') || item.status.includes('Hired') || item.status.includes('Offered')) statusColor = 'status-green';
+            if(item.status.includes('Offered') || item.status.includes('TBD')) statusColor = 'status-orange';
             if(item.status.includes('Reschedule')) statusColor = 'status-gray';
 
-            // --- DATE LOGIC ---
             let showGmBox = false;
             if (item.gmDate && item.gmDate !== '') {
                 try {
                     const dateStr = item.gmDate + (item.gmTime ? ' ' + item.gmTime : '');
                     const apptDate = new Date(dateStr);
                     const now = new Date();
-                    // Fallback: If invalid date, assume it's NOT a date we can track, so don't show box.
                     if (!isNaN(apptDate.getTime())) { showGmBox = apptDate > now; }
                 } catch(e) { showGmBox = false; }
             }
@@ -243,4 +271,3 @@
 </script>
 </body>
 </html>
-
