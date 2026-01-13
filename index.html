@@ -39,7 +39,7 @@
             border-bottom: 2px solid var(--crust-med);
             display: flex;
             flex-wrap: wrap; 
-            gap: 10px; /* Gap between rows */
+            gap: 10px; 
             align-items: center;
             justify-content: space-between;
         }
@@ -81,25 +81,23 @@
         /* Mobile Breakpoint */
         @media (max-width: 600px) {
             .controls {
-                gap: 8px; /* Tighter gap on mobile */
+                gap: 8px; 
                 justify-content: space-between;
             }
             
-            /* FORCE Side-by-Side Dropdowns */
             select {
-                width: 48%; /* Explicit percentage */
-                min-width: 0; /* Allow shrinking if needed */
-                flex: 0 0 48%; /* Don't grow past 48% */
+                width: 48%; 
+                min-width: 0; 
+                flex: 0 0 48%; 
                 margin-bottom: 0;
             }
             
-            /* Toggle Bar moves to new row */
             .view-toggle {
                 width: 100%;
                 justify-content: center;
                 margin-left: 0;
                 margin-top: 4px;
-                flex: 0 0 100%; /* Force full width row */
+                flex: 0 0 100%; 
             }
             
             .view-btn { flex: 1; text-align: center; } 
@@ -126,6 +124,10 @@
         .gm-appt-time { font-family: 'OneDotCd-Bold', sans-serif; font-size: 16px; }
 
         .notes-section { font-size: 14px; margin-top: 8px; color: var(--text-light); background: #f9f9f9; padding: 6px; border-radius: 6px; border-left: 3px solid #ccc; }
+        
+        /* NEW: Styles for the Last Updated text */
+        .updated-text { font-size: 11px; color: #999; text-align: right; margin-top: 6px; font-style: italic; }
+
         .loader { text-align: center; padding: 40px; color: var(--crust-dark); font-family: 'PizzaPress', serif; font-size: 18px; }
         .hidden { display: none; }
     </style>
@@ -212,11 +214,19 @@
         filtered.forEach(item => {
             const icon = (item.position.includes('DE')) ? '🚗' : '🍕';
             const redFlagClass = item.hasBlocker ? 'has-blocker' : '';
+
+            // Logic to add Timestamp if it exists
+            let updatedHtml = '';
+            if (item.lastUpdated && item.lastUpdated !== '') {
+                updatedHtml = `<div class="updated-text">Updated: ${item.lastUpdated}</div>`;
+            }
+
             const html = `
                 <div class="card status-blue ${redFlagClass}">
                     <div class="card-header"><div class="name">${item.name}</div><div class="position-badge">${icon} ${item.position}</div></div>
                     <div class="meta-row"><span>Store #${item.store}</span><span>DO: ${item.doName}</span></div>
                     <div class="main-status">${item.dashboardStatus}</div>
+                    ${updatedHtml}
                 </div>`;
             list.innerHTML += html;
         });
