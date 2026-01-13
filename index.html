@@ -195,7 +195,7 @@
 
     function refreshViews() { renderOnboarding(); renderInterviews(); }
 
-    function renderOnboarding() {
+        function renderOnboarding() {
         const list = document.getElementById('onboardingList');
         list.innerHTML = '';
         const doVal = document.getElementById('doFilter').value;
@@ -215,10 +215,26 @@
             const icon = (item.position.includes('DE')) ? '🚗' : '🍕';
             const redFlagClass = item.hasBlocker ? 'has-blocker' : '';
 
-            // Logic to add Timestamp if it exists
+            // --- TIME FORMAT FIX ---
             let updatedHtml = '';
             if (item.lastUpdated && item.lastUpdated !== '') {
-                updatedHtml = `<div class="updated-text">Updated: ${item.lastUpdated}</div>`;
+                let displayTime = item.lastUpdated;
+                // Try to convert to 12-hour format
+                try {
+                    const d = new Date(item.lastUpdated);
+                    if (!isNaN(d.getTime())) {
+                        displayTime = d.toLocaleString('en-US', {
+                            month: 'numeric',
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: '2-digit',
+                            hour12: true
+                        });
+                    }
+                } catch (e) {
+                    console.log("Date parse error", e);
+                }
+                updatedHtml = `<div class="updated-text">Updated: ${displayTime}</div>`;
             }
 
             const html = `
@@ -300,3 +316,4 @@
 </script>
 </body>
 </html>
+
