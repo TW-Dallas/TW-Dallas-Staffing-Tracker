@@ -229,8 +229,14 @@
 
         filtered.forEach(item => {
             const icon = (item.position && item.position.includes('DE')) ? '🚗' : '🍕';
-            const isHold = item.status && item.status.toLowerCase().includes('hold');
-            const cardClass = isHold ? 'status-red' : 'status-blue'; 
+                        const sLower = item.status ? item.status.toLowerCase() : '';
+            let cardClass = 'status-blue'; // Default
+            
+            if (sLower.includes('hold')) {
+                cardClass = 'status-red';
+            } else if (sLower.includes('hired')) {
+                cardClass = 'status-green';
+            }
             
             // Pipeline Data
             const pipe = getPipelineData(item.status);
@@ -353,4 +359,5 @@
 </script>
 </body>
 </html>
+
 
