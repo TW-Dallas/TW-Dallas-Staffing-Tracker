@@ -150,16 +150,37 @@
 
     function refreshViews() { renderOnboarding(); renderInterviews(); }
 
-    // --- PIPELINE LOGIC ---
-    function getPipelineData(status) {
+        function getPipelineData(status) {
         const s = status ? status.toLowerCase() : '';
+        
+        // 1. HIRED
         if (s.includes('hired')) return { pct: 100, color: 'green', label: 'Hired' };
-        if (s.includes('nto link') || s.includes('nto')) return { pct: 85, color: 'blue', label: 'NTO Scheduled' };
+        
+        // 2. NTO STAGES (Order matters!)
+        // Check for "Link Sent" FIRST so it doesn't get caught by the generic 'nto' check
+        if (s.includes('nto link') || s.includes('link sent')) {
+            return { pct: 80, color: 'blue', label: 'NTO Link Sent' }; 
+        }
+        
+        // Now check for generic "NTO" (which implies Scheduled/Date set)
+        if (s.includes('nto')) {
+            return { pct: 90, color: 'blue', label: 'NTO Scheduled' }; 
+        }
+        
+        // 3. ONBOARDING
         if (s.includes('onboard') || s.includes('background')) return { pct: 70, color: 'blue', label: 'Onboarding' };
-        if (s.includes('offer')) return { pct: 50, color: 'blue', label: 'Offer Sent' };
+        
+        // 4. OFFER
+        if (s.includes('offer')) return { pct: 50, color: 'blue', label: 'Offer Letter Sent' };
+        
+        // 5. EARLIER STAGES
         if (s.includes('interview')) return { pct: 30, color: 'blue', label: 'Interviewing' };
-        if (s.includes('submission')) return { pct: 15, color: 'blue', label: 'Submission' };
+        if (s.includes('submission')) return { pct: 15, color: 'blue', label: 'Submission Received' };
+        
+        // 6. HOLD
         if (s.includes('hold')) return { pct: 100, color: 'red', label: 'HOLD' };
+        
+        // Fallback
         return { pct: 5, color: 'gray', label: status };
     }
 
@@ -175,7 +196,7 @@
             return item.store !== 'Store #' && 
                    (doVal === 'All' || iDo === doVal) &&
                    (storeVal === 'All' || iStore === storeVal);
-        });
+        }).sort((a, b) => getStatusWeight(a.status) - getStatusWeight(b.status)); // <--- THIS SORTS IT!
 
         if(filtered.length === 0) { list.innerHTML = '<div class="loader">No candidates active.</div>'; return; }
 
@@ -213,6 +234,21 @@
                 updatedHtml = `<div class="updated-text">Updated: ${displayTime}</div>`;
             }
 
+            // --- SORTING LOGIC ---
+            // Lower number = Shows up higher in the list
+            function getStatusWeight(status) {
+                const s = status ? status.toLowerCase() : '';
+                if (s.includes('hold')) return 0;       // Urgent! Top.
+                if (s.includes('offer')) return 1;      // Action needed
+                if (s.includes('nto link')) return 2;   // Action needed
+                if (s.includes('submission')) return 3; 
+                if (s.includes('interview')) return 4;
+                if (s.includes('onboard')) return 5;
+                if (s.includes('nto')) return 6;        // Scheduled, less urgent
+                if (s.includes('hired')) return 10;     // Done. Bottom.
+                return 5; // Default middle
+            }
+            
             const html = `
                 <div class="card ${cardClass}">
                     <div class="card-header">
@@ -307,3 +343,4 @@
 </script>
 </body>
 </html>
+
