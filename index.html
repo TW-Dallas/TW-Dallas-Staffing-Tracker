@@ -79,7 +79,8 @@
         .chip { font-size: 12px; background: #f0f4f8; padding: 4px 8px; border-radius: 6px; border: 1px solid #dde1e6; color: #555; display: flex; align-items: center; gap: 4px; }
         .chip-nto { background: #e3f2fd; color: #0d47a1; border-color: #bbdefb; font-weight: bold; }
 
-        .notes-section { font-size: 14px; margin-top: 10px; color: var(--text-light); background: #fff5f5; padding: 8px; border-radius: 6px; border-left: 3px solid #ccc; }
+        /* --- NOTES FIX: Changed to Gray --- */
+        .notes-section { font-size: 14px; margin-top: 10px; color: var(--text-light); background: #f9f9f9; padding: 8px; border-radius: 6px; border-left: 3px solid #ccc; }
         .notes-section.hold-notes { background: #ffebee; border-left-color: var(--brand-red); color: #b71c1c; }
 
         .updated-text { font-size: 11px; color: #999; text-align: right; margin-top: 8px; font-style: italic; }
@@ -150,19 +151,16 @@
 
     function refreshViews() { renderOnboarding(); renderInterviews(); }
 
-        function getPipelineData(status) {
+    function getPipelineData(status) {
         const s = status ? status.toLowerCase() : '';
         
         // 1. HIRED
         if (s.includes('hired')) return { pct: 100, color: 'green', label: 'Hired' };
         
         // 2. NTO STAGES (Order matters!)
-        // Check for "Link Sent" FIRST so it doesn't get caught by the generic 'nto' check
         if (s.includes('nto link') || s.includes('link sent')) {
             return { pct: 80, color: 'blue', label: 'NTO Link Sent' }; 
         }
-        
-        // Now check for generic "NTO" (which implies Scheduled/Date set)
         if (s.includes('nto')) {
             return { pct: 90, color: 'blue', label: 'NTO Scheduled' }; 
         }
@@ -184,6 +182,21 @@
         return { pct: 5, color: 'gray', label: status };
     }
 
+    // --- SORTING LOGIC ---
+    // Moved to Global Scope so renderOnboarding can see it!
+    function getStatusWeight(status) {
+        const s = status ? status.toLowerCase() : '';
+        if (s.includes('hold')) return 0;       // Urgent! Top.
+        if (s.includes('offer')) return 1;      // Action needed
+        if (s.includes('nto link')) return 2;   // Action needed
+        if (s.includes('submission')) return 3; 
+        if (s.includes('interview')) return 4;
+        if (s.includes('onboard')) return 5;
+        if (s.includes('nto')) return 6;        // Scheduled, less urgent
+        if (s.includes('hired')) return 10;     // Done. Bottom.
+        return 5; // Default middle
+    }
+
     function renderOnboarding() {
         const list = document.getElementById('onboardingList');
         list.innerHTML = '';
@@ -196,14 +209,14 @@
             return item.store !== 'Store #' && 
                    (doVal === 'All' || iDo === doVal) &&
                    (storeVal === 'All' || iStore === storeVal);
-        }).sort((a, b) => getStatusWeight(a.status) - getStatusWeight(b.status)); // <--- THIS SORTS IT!
+        }).sort((a, b) => getStatusWeight(a.status) - getStatusWeight(b.status));
 
         if(filtered.length === 0) { list.innerHTML = '<div class="loader">No candidates active.</div>'; return; }
 
         filtered.forEach(item => {
             const icon = (item.position && item.position.includes('DE')) ? '🚗' : '🍕';
             const isHold = item.status && item.status.toLowerCase().includes('hold');
-            const cardClass = isHold ? 'status-red' : 'status-blue'; // Borders
+            const cardClass = isHold ? 'status-red' : 'status-blue'; 
             
             // Pipeline Data
             const pipe = getPipelineData(item.status);
@@ -234,21 +247,6 @@
                 updatedHtml = `<div class="updated-text">Updated: ${displayTime}</div>`;
             }
 
-            // --- SORTING LOGIC ---
-            // Lower number = Shows up higher in the list
-            function getStatusWeight(status) {
-                const s = status ? status.toLowerCase() : '';
-                if (s.includes('hold')) return 0;       // Urgent! Top.
-                if (s.includes('offer')) return 1;      // Action needed
-                if (s.includes('nto link')) return 2;   // Action needed
-                if (s.includes('submission')) return 3; 
-                if (s.includes('interview')) return 4;
-                if (s.includes('onboard')) return 5;
-                if (s.includes('nto')) return 6;        // Scheduled, less urgent
-                if (s.includes('hired')) return 10;     // Done. Bottom.
-                return 5; // Default middle
-            }
-            
             const html = `
                 <div class="card ${cardClass}">
                     <div class="card-header">
@@ -273,7 +271,6 @@
     }
 
     function renderInterviews() {
-        // [Unchanged Logic for Interviews]
         const list = document.getElementById('interviewList');
         list.innerHTML = '';
         const doVal = document.getElementById('doFilter').value;
@@ -292,7 +289,6 @@
         filtered.forEach(item => {
             const icon = (item.position && item.position.includes('DE')) ? '🚗' : '🍕';
             let statusColor = 'status-blue';
-            // Safety check for null status
             const s = item.status ? item.status.toString() : '';
             if(s.includes('No Show') || s.includes('Canceled') || s.includes('Pass')) statusColor = 'status-red';
             if(s.includes('2nd Interview') || s.includes('Hired') || s.includes('Offered')) statusColor = 'status-green';
@@ -343,4 +339,3 @@
 </script>
 </body>
 </html>
-
