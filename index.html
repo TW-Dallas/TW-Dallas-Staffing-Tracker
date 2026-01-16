@@ -13,16 +13,15 @@
         :root {
             --brand-red: #ff0000;
             --brand-blue: #0090e2;
+            --brand-green: #28a745;
             --brand-orange: #ff8f00;
             --crust-light: #faf2e9;
             --crust-med: #f0decc;
             --crust-dark: #c0a588;
-            --crust-deep: #603913;
-            --crust-burnt: #472b10;
             --bg-color: var(--crust-light);
             --card-bg: #FFFFFF;
-            --text-dark: var(--crust-burnt);
-            --text-light: var(--crust-deep);
+            --text-dark: #472b10;
+            --text-light: #603913;
             --border-radius: 12px;
         }
 
@@ -32,102 +31,58 @@
         h1 { margin: 0; font-family: 'PizzaPress', serif; font-size: 20px; text-transform: uppercase; }
         .subtitle { font-family: 'OneDotCd', sans-serif; font-size: 12px; opacity: 0.9; }
 
-        /* --- CONTROLS (V10 - Side-by-Side Mobile Fix) --- */
-        .controls {
-            padding: 12px 16px;
-            background: white;
-            border-bottom: 2px solid var(--crust-med);
-            display: flex;
-            flex-wrap: wrap; 
-            gap: 10px; 
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        /* Default (Desktop) */
-        select {
-            padding: 8px;
-            border-radius: 8px;
-            border: 1px solid var(--crust-dark);
-            background: var(--crust-light);
-            font-family: 'OneDotCd-Bold', sans-serif;
-            font-size: 16px;
-            color: var(--text-dark);
-            width: 250px;
-        }
-
-        .view-toggle {
-            display: flex;
-            background: var(--crust-med);
-            border-radius: 8px;
-            padding: 4px;
-            margin-left: auto;
-        }
-
-        .view-btn {
-            padding: 8px 16px;
-            border: none;
-            background: none;
-            font-family: 'OneDotCd-Bold', sans-serif;
-            font-size: 14px;
-            color: var(--crust-deep);
-            cursor: pointer;
-            border-radius: 6px;
-            text-transform: uppercase;
-        }
-
+        /* --- CONTROLS --- */
+        .controls { padding: 12px 16px; background: white; border-bottom: 2px solid var(--crust-med); display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
+        select { padding: 8px; border-radius: 8px; border: 1px solid var(--crust-dark); background: var(--crust-light); font-family: 'OneDotCd-Bold', sans-serif; font-size: 16px; color: var(--text-dark); width: 250px; }
+        .view-toggle { display: flex; background: var(--crust-med); border-radius: 8px; padding: 4px; margin-left: auto; }
+        .view-btn { padding: 8px 16px; border: none; background: none; font-family: 'OneDotCd-Bold', sans-serif; font-size: 14px; color: #472b10; cursor: pointer; border-radius: 6px; text-transform: uppercase; }
         .view-btn.active { background: white; color: var(--brand-blue); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 
-        /* Mobile Breakpoint */
         @media (max-width: 600px) {
-            .controls {
-                gap: 8px; 
-                justify-content: space-between;
-            }
-            
-            select {
-                width: 48%; 
-                min-width: 0; 
-                flex: 0 0 48%; 
-                margin-bottom: 0;
-            }
-            
-            .view-toggle {
-                width: 100%;
-                justify-content: center;
-                margin-left: 0;
-                margin-top: 4px;
-                flex: 0 0 100%; 
-            }
-            
+            .controls { gap: 8px; justify-content: space-between; }
+            select { width: 48%; min-width: 0; flex: 0 0 48%; margin-bottom: 0; }
+            .view-toggle { width: 100%; justify-content: center; margin-left: 0; margin-top: 4px; flex: 0 0 100%; }
             .view-btn { flex: 1; text-align: center; } 
         }
 
         .container { padding: 16px; max-width: 800px; margin: 0 auto; }
-        .card { background: var(--card-bg); border-radius: var(--border-radius); padding: 16px; margin-bottom: 12px; box-shadow: 0 4px 6px rgba(71, 43, 16, 0.05); border-left: 6px solid transparent; }
         
-        .card.status-red { border-left-color: var(--brand-red); }
+        /* --- CARD STYLES --- */
+        .card { background: var(--card-bg); border-radius: var(--border-radius); padding: 16px; margin-bottom: 12px; box-shadow: 0 4px 6px rgba(71, 43, 16, 0.05); border-left: 6px solid transparent; position: relative; }
+        
+        /* Status Borders */
         .card.status-blue { border-left-color: var(--brand-blue); }
-        .card.status-green { border-left-color: #28a745; }
+        .card.status-green { border-left-color: var(--brand-green); }
+        .card.status-red { border-left-color: var(--brand-red); border: 2px solid var(--brand-red); } /* Full border for HOLD */
         .card.status-orange { border-left-color: var(--brand-orange); }
         .card.status-gray { border-left-color: #999; }
-        .card.has-blocker { border: 2px solid var(--brand-red); }
 
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .name { font-family: 'OneDotCd-Bold', sans-serif; font-size: 18px; color: var(--text-dark); }
         .position-badge { font-family: 'OneDotCd-Bold', sans-serif; font-size: 12px; padding: 4px 8px; border-radius: 12px; background: var(--crust-light); color: #005c91; border: 1px solid var(--crust-med); }
+        
         .meta-row { display: flex; justify-content: space-between; font-family: 'OneDotCd', sans-serif; font-size: 14px; color: var(--text-light); margin-bottom: 8px; }
-        .main-status { font-family: 'OneDotCd-Bold', sans-serif; font-size: 16px; color: var(--brand-blue); padding-top: 10px; border-top: 1px solid var(--crust-med); }
-        
-        .gm-appt-box { background-color: #e8f5e9; border: 1px solid #28a745; color: #1b5e20; padding: 10px; border-radius: 8px; margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
-        .gm-appt-label { font-size: 11px; text-transform: uppercase; opacity: 0.8; font-weight: bold; }
-        .gm-appt-time { font-family: 'OneDotCd-Bold', sans-serif; font-size: 16px; }
 
-        .notes-section { font-size: 14px; margin-top: 8px; color: var(--text-light); background: #f9f9f9; padding: 6px; border-radius: 6px; border-left: 3px solid #ccc; }
-        
-        /* NEW: Styles for the Last Updated text */
-        .updated-text { font-size: 11px; color: #999; text-align: right; margin-top: 6px; font-style: italic; }
+        /* --- PIPELINE VISUALS --- */
+        .pipeline-container { margin-top: 10px; margin-bottom: 6px; }
+        .pipeline-track { background: #eee; height: 8px; border-radius: 4px; overflow: hidden; width: 100%; }
+        .pipeline-fill { height: 100%; transition: width 0.5s ease; background: var(--brand-blue); }
+        .pipeline-fill.green { background: var(--brand-green); }
+        .pipeline-fill.red { background: var(--brand-red); }
 
+        .status-text { font-family: 'OneDotCd-Bold', sans-serif; font-size: 14px; color: var(--brand-blue); display: flex; justify-content: space-between; align-items: center; }
+        .status-text.red { color: var(--brand-red); }
+        .status-text.green { color: var(--brand-green); }
+
+        /* --- DATA CHIPS (Shirt, Paycard) --- */
+        .chip-container { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+        .chip { font-size: 12px; background: #f0f4f8; padding: 4px 8px; border-radius: 6px; border: 1px solid #dde1e6; color: #555; display: flex; align-items: center; gap: 4px; }
+        .chip-nto { background: #e3f2fd; color: #0d47a1; border-color: #bbdefb; font-weight: bold; }
+
+        .notes-section { font-size: 14px; margin-top: 10px; color: var(--text-light); background: #fff5f5; padding: 8px; border-radius: 6px; border-left: 3px solid #ccc; }
+        .notes-section.hold-notes { background: #ffebee; border-left-color: var(--brand-red); color: #b71c1c; }
+
+        .updated-text { font-size: 11px; color: #999; text-align: right; margin-top: 8px; font-style: italic; }
         .loader { text-align: center; padding: 40px; color: var(--crust-dark); font-family: 'PizzaPress', serif; font-size: 18px; }
         .hidden { display: none; }
     </style>
@@ -195,7 +150,20 @@
 
     function refreshViews() { renderOnboarding(); renderInterviews(); }
 
-        function renderOnboarding() {
+    // --- PIPELINE LOGIC ---
+    function getPipelineData(status) {
+        const s = status ? status.toLowerCase() : '';
+        if (s.includes('hired')) return { pct: 100, color: 'green', label: 'Hired' };
+        if (s.includes('nto link') || s.includes('nto')) return { pct: 85, color: 'blue', label: 'NTO Scheduled' };
+        if (s.includes('onboard') || s.includes('background')) return { pct: 70, color: 'blue', label: 'Onboarding' };
+        if (s.includes('offer')) return { pct: 50, color: 'blue', label: 'Offer Sent' };
+        if (s.includes('interview')) return { pct: 30, color: 'blue', label: 'Interviewing' };
+        if (s.includes('submission')) return { pct: 15, color: 'blue', label: 'Submission' };
+        if (s.includes('hold')) return { pct: 100, color: 'red', label: 'HOLD' };
+        return { pct: 5, color: 'gray', label: status };
+    }
+
+    function renderOnboarding() {
         const list = document.getElementById('onboardingList');
         list.innerHTML = '';
         const doVal = document.getElementById('doFilter').value;
@@ -212,36 +180,56 @@
         if(filtered.length === 0) { list.innerHTML = '<div class="loader">No candidates active.</div>'; return; }
 
         filtered.forEach(item => {
-            const icon = (item.position.includes('DE')) ? '🚗' : '🍕';
-            const redFlagClass = item.hasBlocker ? 'has-blocker' : '';
+            const icon = (item.position && item.position.includes('DE')) ? '🚗' : '🍕';
+            const isHold = item.status && item.status.toLowerCase().includes('hold');
+            const cardClass = isHold ? 'status-red' : 'status-blue'; // Borders
+            
+            // Pipeline Data
+            const pipe = getPipelineData(item.status);
+            
+            // Chips
+            let chipsHtml = '';
+            if (item.shirtSize) chipsHtml += `<span class="chip">👕 ${item.shirtSize}</span>`;
+            if (item.payCard) chipsHtml += `<span class="chip">💳 ${item.payCard}</span>`;
+            if (item.ntoDate) chipsHtml += `<span class="chip chip-nto">📅 NTO: ${item.ntoDate}</span>`;
 
-            // --- TIME FORMAT FIX ---
+            // Notes
+            let notesHtml = '';
+            if (item.notes) {
+                const noteClass = isHold ? 'hold-notes' : '';
+                notesHtml = `<div class="notes-section ${noteClass}">${item.notes}</div>`;
+            }
+
+            // Timestamp
             let updatedHtml = '';
-            if (item.lastUpdated && item.lastUpdated !== '') {
+            if (item.lastUpdated) {
                 let displayTime = item.lastUpdated;
-                // Try to convert to 12-hour format
                 try {
                     const d = new Date(item.lastUpdated);
                     if (!isNaN(d.getTime())) {
-                        displayTime = d.toLocaleString('en-US', {
-                            month: 'numeric',
-                            day: 'numeric',
-                            hour: 'numeric',
-                            minute: '2-digit',
-                            hour12: true
-                        });
+                        displayTime = d.toLocaleString('en-US', { month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true });
                     }
-                } catch (e) {
-                    console.log("Date parse error", e);
-                }
+                } catch (e) {}
                 updatedHtml = `<div class="updated-text">Updated: ${displayTime}</div>`;
             }
 
             const html = `
-                <div class="card status-blue ${redFlagClass}">
-                    <div class="card-header"><div class="name">${item.name}</div><div class="position-badge">${icon} ${item.position}</div></div>
+                <div class="card ${cardClass}">
+                    <div class="card-header">
+                        <div class="name">${item.name}</div>
+                        <div class="position-badge">${icon} ${item.position}</div>
+                    </div>
                     <div class="meta-row"><span>Store #${item.store}</span><span>DO: ${item.doName}</span></div>
-                    <div class="main-status">${item.dashboardStatus}</div>
+                    
+                    <div class="pipeline-container">
+                        <div class="pipeline-track">
+                            <div class="pipeline-fill ${pipe.color}" style="width: ${pipe.pct}%"></div>
+                        </div>
+                    </div>
+                    <div class="status-text ${pipe.color}">${pipe.label}</div>
+
+                    <div class="chip-container">${chipsHtml}</div>
+                    ${notesHtml}
                     ${updatedHtml}
                 </div>`;
             list.innerHTML += html;
@@ -249,6 +237,7 @@
     }
 
     function renderInterviews() {
+        // [Unchanged Logic for Interviews]
         const list = document.getElementById('interviewList');
         list.innerHTML = '';
         const doVal = document.getElementById('doFilter').value;
@@ -265,15 +254,17 @@
         if(filtered.length === 0) { list.innerHTML = '<div class="loader">No interviews scheduled.</div>'; return; }
 
         filtered.forEach(item => {
-            const icon = (item.position.includes('DE')) ? '🚗' : '🍕';
+            const icon = (item.position && item.position.includes('DE')) ? '🚗' : '🍕';
             let statusColor = 'status-blue';
-            if(item.status.includes('No Show') || item.status.includes('Canceled') || item.status.includes('Pass')) statusColor = 'status-red';
-            if(item.status.includes('2nd Interview') || item.status.includes('Hired') || item.status.includes('Offered')) statusColor = 'status-green';
-            if(item.status.includes('Offered') || item.status.includes('TBD')) statusColor = 'status-orange';
-            if(item.status.includes('Reschedule')) statusColor = 'status-gray';
+            // Safety check for null status
+            const s = item.status ? item.status.toString() : '';
+            if(s.includes('No Show') || s.includes('Canceled') || s.includes('Pass')) statusColor = 'status-red';
+            if(s.includes('2nd Interview') || s.includes('Hired') || s.includes('Offered')) statusColor = 'status-green';
+            if(s.includes('Offered') || s.includes('TBD')) statusColor = 'status-orange';
+            if(s.includes('Reschedule')) statusColor = 'status-gray';
 
             let showGmBox = false;
-            if (item.gmDate && item.gmDate !== '') {
+            if (item.gmDate) {
                 try {
                     const dateStr = item.gmDate + (item.gmTime ? ' ' + item.gmTime : '');
                     const apptDate = new Date(dateStr);
@@ -316,4 +307,3 @@
 </script>
 </body>
 </html>
-
