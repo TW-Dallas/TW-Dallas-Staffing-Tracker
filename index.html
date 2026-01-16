@@ -184,17 +184,31 @@
 
     // --- SORTING LOGIC ---
     // Moved to Global Scope so renderOnboarding can see it!
-    function getStatusWeight(status) {
-        const s = status ? status.toLowerCase() : '';
-        if (s.includes('hold')) return 0;       // Urgent! Top.
-        if (s.includes('offer')) return 1;      // Action needed
-        if (s.includes('nto link')) return 2;   // Action needed
-        if (s.includes('submission')) return 3; 
-        if (s.includes('interview')) return 4;
-        if (s.includes('onboard')) return 5;
-        if (s.includes('nto')) return 6;        // Scheduled, less urgent
-        if (s.includes('hired')) return 10;     // Done. Bottom.
-        return 5; // Default middle
+        function getStatusWeight(item) {
+        const s = item.status ? item.status.toLowerCase() : '';
+        
+        // 1. HIRED (The Freshness Rule)
+        if (s.includes('hired')) {
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const updateDate = new Date(item.lastUpdated); // JS can read "1/15/26" just fine
+            updateDate.setHours(0,0,0,0);
+            
+            // If Hired Today -> Top (0). If Old -> Bottom (10).
+            return (updateDate.getTime() === today.getTime()) ? 0 : 10;
+        }
+
+        // 2. ACTIVE FUNNEL (Ordered by "Closest to Finish")
+        // Feel free to swap these numbers to change the order!
+        if (s.includes('nto')) return 1;        // Almost Hired
+        if (s.includes('onboard')) return 2;    // Middle
+        if (s.includes('offer')) return 3;      // Early
+        if (s.includes('submission')) return 4; // Start
+        
+        // 3. STALLED
+        if (s.includes('hold')) return 8;       // Stalled
+
+        return 5; // Catch-all
     }
 
     function renderOnboarding() {
@@ -209,7 +223,7 @@
             return item.store !== 'Store #' && 
                    (doVal === 'All' || iDo === doVal) &&
                    (storeVal === 'All' || iStore === storeVal);
-        }).sort((a, b) => getStatusWeight(a.status) - getStatusWeight(b.status));
+        }).sort((a, b) => getStatusWeight(a) - getStatusWeight(b));
 
         if(filtered.length === 0) { list.innerHTML = '<div class="loader">No candidates active.</div>'; return; }
 
@@ -339,3 +353,4 @@
 </script>
 </body>
 </html>
+
