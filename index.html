@@ -52,7 +52,7 @@
         
         /* Status Borders */
         .card.status-blue { border-left-color: var(--brand-blue); }
-        .card.status-green { border-left-color: var(--brand-green); }
+        .card.status-green { border-left-color: var(--brand-green); border-left-width: 8px; } /* Thicker green */
         .card.status-red { border-left-color: var(--brand-red); border: 2px solid var(--brand-red); } /* Full border for HOLD */
         .card.status-orange { border-left-color: var(--brand-orange); }
         .card.status-gray { border-left-color: #999; }
@@ -79,7 +79,6 @@
         .chip { font-size: 12px; background: #f0f4f8; padding: 4px 8px; border-radius: 6px; border: 1px solid #dde1e6; color: #555; display: flex; align-items: center; gap: 4px; }
         .chip-nto { background: #e3f2fd; color: #0d47a1; border-color: #bbdefb; font-weight: bold; }
 
-        /* --- NOTES FIX: Changed to Gray --- */
         .notes-section { font-size: 14px; margin-top: 10px; color: var(--text-light); background: #f9f9f9; padding: 8px; border-radius: 6px; border-left: 3px solid #ccc; }
         .notes-section.hold-notes { background: #ffebee; border-left-color: var(--brand-red); color: #b71c1c; }
 
@@ -124,10 +123,11 @@
             populateFilters();
             renderOnboarding();
             renderInterviews();
+            // Ensure loader is hidden ONLY after success
             document.getElementById('loader').classList.add('hidden');
         })
         .catch(err => {
-            document.getElementById('loader').innerText = "Connecting...";
+            document.getElementById('loader').innerText = "Error Loading Data";
             console.error(err);
         });
 
@@ -183,15 +183,14 @@
     }
 
     // --- SORTING LOGIC ---
-    // Moved to Global Scope so renderOnboarding can see it!
-        function getStatusWeight(item) {
+    function getStatusWeight(item) {
         const s = item.status ? item.status.toLowerCase() : '';
         
         // 1. HIRED (The Freshness Rule)
         if (s.includes('hired')) {
             const today = new Date();
             today.setHours(0,0,0,0);
-            const updateDate = new Date(item.lastUpdated); // JS can read "1/15/26" just fine
+            const updateDate = new Date(item.lastUpdated); 
             updateDate.setHours(0,0,0,0);
             
             // If Hired Today -> Top (0). If Old -> Bottom (10).
@@ -199,7 +198,6 @@
         }
 
         // 2. ACTIVE FUNNEL (Ordered by "Closest to Finish")
-        // Feel free to swap these numbers to change the order!
         if (s.includes('nto')) return 1;        // Almost Hired
         if (s.includes('onboard')) return 2;    // Middle
         if (s.includes('offer')) return 3;      // Early
@@ -229,7 +227,9 @@
 
         filtered.forEach(item => {
             const icon = (item.position && item.position.includes('DE')) ? '🚗' : '🍕';
-                        const sLower = item.status ? item.status.toLowerCase() : '';
+            
+            // --- NEW: COLOR LOGIC ---
+            const sLower = item.status ? item.status.toLowerCase() : '';
             let cardClass = 'status-blue'; // Default
             
             if (sLower.includes('hold')) {
@@ -250,7 +250,7 @@
             // Notes
             let notesHtml = '';
             if (item.notes) {
-                const noteClass = isHold ? 'hold-notes' : '';
+                const noteClass = sLower.includes('hold') ? 'hold-notes' : '';
                 notesHtml = `<div class="notes-section ${noteClass}">${item.notes}</div>`;
             }
 
@@ -359,5 +359,3 @@
 </script>
 </body>
 </html>
-
-
