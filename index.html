@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="data:,">
     <title>Staffing Command Center</title>
-    <style>
+        <style>
         @font-face { font-family: 'PizzaPress'; src: url('PizzaPress-Regular.otf') format('opentype'); font-weight: normal; }
         @font-face { font-family: 'OneDotCd-Bold'; src: url('OneDotCd-Bold.ttf') format('truetype'); font-weight: bold; }
         @font-face { font-family: 'OneDotCd'; src: url('OneDotCd.ttf') format('truetype'); font-weight: normal; }
@@ -52,8 +52,8 @@
         
         /* Status Borders */
         .card.status-blue { border-left-color: var(--brand-blue); }
-        .card.status-green { border-left-color: var(--brand-green); border-left-width: 8px; } /* Thicker green */
-        .card.status-red { border-left-color: var(--brand-red); border: 2px solid var(--brand-red); } /* Full border for HOLD */
+        .card.status-green { border-left-color: var(--brand-green); border-left-width: 8px; }
+        .card.status-red { border-left-color: var(--brand-red); border: 2px solid var(--brand-red); } 
         .card.status-orange { border-left-color: var(--brand-orange); }
         .card.status-gray { border-left-color: #999; }
 
@@ -74,11 +74,17 @@
         .status-text.red { color: var(--brand-red); }
         .status-text.green { color: var(--brand-green); }
 
-        /* --- DATA CHIPS (Shirt, Paycard) --- */
+        /* --- DATA CHIPS --- */
         .chip-container { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
         .chip { font-size: 12px; background: #f0f4f8; padding: 4px 8px; border-radius: 6px; border: 1px solid #dde1e6; color: #555; display: flex; align-items: center; gap: 4px; }
         .chip-nto { background: #e3f2fd; color: #0d47a1; border-color: #bbdefb; font-weight: bold; }
 
+        /* --- GM APPOINTMENT BOX (Restored!) --- */
+        .gm-appt-box { background-color: #e8f5e9; border: 1px solid #28a745; color: #1b5e20; padding: 10px; border-radius: 8px; margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+        .gm-appt-label { font-size: 11px; text-transform: uppercase; opacity: 0.8; font-weight: bold; }
+        .gm-appt-time { font-family: 'OneDotCd-Bold', sans-serif; font-size: 16px; }
+
+        /* --- NOTES --- */
         .notes-section { font-size: 14px; margin-top: 10px; color: var(--text-light); background: #f9f9f9; padding: 8px; border-radius: 6px; border-left: 3px solid #ccc; }
         .notes-section.hold-notes { background: #ffebee; border-left-color: var(--brand-red); color: #b71c1c; }
 
@@ -359,3 +365,4 @@
 </script>
 </body>
 </html>
+
