@@ -215,6 +215,18 @@
         return 5; // Catch-all
     }
 
+    function formatPhone(phone) {
+        if (!phone) return '';
+        // Strip everything but numbers
+        const cleaned = ('' + phone).replace(/\D/g, '');
+        // Check for standard 10 digit
+        const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+        if (match) {
+            return '(' + match[1] + ') ' + match[2] + '-' + match[3];
+        }
+        return phone; // Return original if weird format
+    }
+
     function renderOnboarding() {
         const list = document.getElementById('onboardingList');
         list.innerHTML = '';
@@ -274,13 +286,21 @@
             }
 
             const html = `
-                <div class="card ${cardClass}">
-                    <div class="card-header">
-                        <div class="name">${item.name}</div>
-                        <div class="position-badge">${icon} ${item.position}</div>
+                <div class="card-header">
+                    <div class="name">${item.name}</div>
+                    <div class="position-badge">${icon} ${item.position}</div>
+                </div>
+
+                ${item.phoneNumber ? `
+                    <div style="margin-bottom: 8px; font-family: 'OneDotCd', sans-serif;">
+                        <a href="tel:${item.phoneNumber}" style="text-decoration: none; color: #006491; font-weight: bold; font-size: 1.1rem; display: flex; align-items: center; gap: 5px;">
+                            📞 ${formatPhone(item.phoneNumber)}
+                        </a>
                     </div>
-                    <div class="meta-row"><span>Store #${item.store}</span><span>DO: ${item.doName}</span></div>
-                    
+                ` : ''}
+                
+                <div class="meta-row"><span>Store #${item.store}</span><span>DO: ${item.doName}</span></div>
+
                     <div class="pipeline-container">
                         <div class="pipeline-track">
                             <div class="pipeline-fill ${pipe.color}" style="width: ${pipe.pct}%"></div>
@@ -362,7 +382,9 @@
             document.getElementById('interviewList').classList.remove('hidden');
         }
     }
+    
 </script>
 </body>
 </html>
+
 
