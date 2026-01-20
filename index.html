@@ -294,14 +294,6 @@
                     </div>
                     <div class="position-badge">${icon} ${item.position}</div>
                 </div>
-
-                ${item.phoneNumber ? `
-                    <div style="margin-bottom: 8px; font-family: 'OneDotCd', sans-serif;">
-                        <a href="tel:${item.phoneNumber}" style="text-decoration: none; color: #006491; font-weight: bold; font-size: 0.95rem; display: flex; align-items: center; gap: 5px;">
-                            📞 ${formatPhone(item.phoneNumber)}
-                        </a>
-                    </div>
-                ` : ''}
                 
                 <div class="meta-row"><span>Store #${item.store}</span><span>DO: ${item.doName}</span></div>
 
@@ -390,6 +382,7 @@
 </script>
 </body>
 </html>
+
 
 
 
