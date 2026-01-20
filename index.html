@@ -288,7 +288,10 @@
             const html = `
                 <div class="card ${cardClass}">  <!-- ADD THIS LINE BACK -->
                 <div class="card-header">
-                    <div class="name">${item.name}</div>
+                    <div class="name-phone-group" style="display: flex; flex-direction: column;">
+                        <div class="name">${item.name}</div>
+                        ${item.phoneNumber ? `<a href="tel:${item.phoneNumber}" style="text-decoration: none; color: #006491; font-weight: bold; font-size: 0.85rem; margin-top: 2px;">📞 ${formatPhone(item.phoneNumber)}</a>` : ''}
+                    </div>
                     <div class="position-badge">${icon} ${item.position}</div>
                 </div>
 
@@ -387,6 +390,7 @@
 </script>
 </body>
 </html>
+
 
 
 
