@@ -15,6 +15,7 @@
             --brand-blue: #0090e2;
             --brand-green: #28a745;
             --brand-orange: #ff8f00;
+            --brand-grey: #6c757d;
             --crust-light: #faf2e9;
             --crust-med: #f0decc;
             --crust-dark: #c0a588;
@@ -55,7 +56,7 @@
         .card.status-green { border-left-color: var(--brand-green); border-left-width: 8px; }
         .card.status-red { border-left-color: var(--brand-red); border: 2px solid var(--brand-red); } 
         .card.status-orange { border-left-color: var(--brand-orange); }
-        .card.status-gray { border-left-color: #999; }
+        .card.status-gray { border-left-color: #6c757d; opacity: 0.6; background-color: #f8f9fa; }
 
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .name { font-family: 'OneDotCd-Bold', sans-serif; font-size: 18px; color: var(--text-dark); }
@@ -219,7 +220,7 @@
         if (s.includes('hold')) return 8;       // Stalled at bottom of active list
         
         return 5; // Catch-all (Active stuff that didn't match above)
-    } // <--- THIS WAS MISSING
+    }
 
     function formatPhone(phone) {
         if (!phone) return '';
@@ -256,9 +257,16 @@
             const sLower = item.status ? item.status.toLowerCase() : '';
             let cardClass = 'status-blue'; // Default
             
-            if (sLower.includes('hold')) {
+            // 1. Check for Gray (Ineligible)
+            if (sLower.includes('ineligible') || sLower.includes('rejected')) {
+                cardClass = 'status-gray'; // <--- Use 'gray' to match your CSS
+            } 
+            // 2. Check for Red (Hold)
+            else if (sLower.includes('hold')) {
                 cardClass = 'status-red';
-            } else if (sLower.includes('hired')) {
+            } 
+            // 3. Check for Green (Hired)
+            else if (sLower.includes('hired')) {
                 cardClass = 'status-green';
             }
             
@@ -388,6 +396,7 @@
 </script>
 </body>
 </html>
+
 
 
 
