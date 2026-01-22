@@ -57,6 +57,8 @@
         .card.status-red { border-left-color: var(--brand-red); border: 2px solid var(--brand-red); } 
         .card.status-orange { border-left-color: var(--brand-orange); }
         .card.status-gray { border-left-color: #6c757d; opacity: 0.8; background-color: #f8f9fa; }
+        .card.status-blue .notes-section { border-left-color: var(--brand-blue); }
+        .card.status-green .notes-section { border-left-color: var(--brand-green); }
 
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .name { font-family: 'OneDotCd-Bold', sans-serif; font-size: 18px; color: var(--text-dark); }
@@ -70,10 +72,12 @@
         .pipeline-fill { height: 100%; transition: width 0.5s ease; background: var(--brand-blue); }
         .pipeline-fill.green { background: var(--brand-green); }
         .pipeline-fill.red { background: var(--brand-red); }
+        .pipeline-fill.grey { background: #6c757d; }
 
         .status-text { font-family: 'OneDotCd-Bold', sans-serif; font-size: 14px; color: var(--brand-blue); display: flex; justify-content: space-between; align-items: center; }
         .status-text.red { color: var(--brand-red); }
         .status-text.green { color: var(--brand-green); }
+        .status-text.grey { color: #6c757d; }
 
         /* --- DATA CHIPS --- */
         .chip-container { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
@@ -396,6 +400,7 @@
 </script>
 </body>
 </html>
+
 
 
 
