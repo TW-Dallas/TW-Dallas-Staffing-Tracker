@@ -159,6 +159,11 @@
 
     function getPipelineData(status) {
         const s = status ? status.toLowerCase() : '';
+
+        // 0. INELIGIBLE (New)
+        if (s.includes('ineligible') || s.includes('rejected')) { 
+            return { pct: 100, color: 'grey', label: 'Ineligible' }; 
+        }
         
         // 1. HIRED
         if (s.includes('hired')) return { pct: 100, color: 'green', label: 'Hired' };
@@ -189,7 +194,7 @@
     }
 
     // --- SORTING LOGIC ---
-    function getStatusWeight(item) {
+   function getStatusWeight(item) {
         const s = item.status ? item.status.toLowerCase() : '';
         
         // 1. HIRED (The Freshness Rule)
@@ -210,10 +215,11 @@
         if (s.includes('submission')) return 4; // Start
         
         // 3. STALLED
-        if (s.includes('hold')) return 8;       // Stalled
-
-        return 5; // Catch-all
-    }
+        if (s.includes('ineligible') || s.includes('rejected')) return 7; // Just above Holds (8)
+        if (s.includes('hold')) return 8;       // Stalled at bottom of active list
+        
+        return 5; // Catch-all (Active stuff that didn't match above)
+    } // <--- THIS WAS MISSING
 
     function formatPhone(phone) {
         if (!phone) return '';
@@ -382,6 +388,7 @@
 </script>
 </body>
 </html>
+
 
 
 
