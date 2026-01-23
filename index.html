@@ -174,8 +174,8 @@
         if (s.includes('hired')) return { pct: 100, color: 'green', label: 'Hired' };
         
         // 2. NTO STAGES (Order matters!)
-        if (s.includes('nto link') || s.includes('link sent')) {
-            return { pct: 80, color: 'blue', label: 'NTO Link Sent' }; 
+        if (s.includes('nto signup link') || s.includes('link sent')) {
+            return { pct: 80, color: 'blue', label: 'NTO Signup Link Sent' }; 
         }
         if (s.includes('nto')) {
             return { pct: 90, color: 'blue', label: 'NTO Scheduled' }; 
@@ -400,6 +400,7 @@
 </script>
 </body>
 </html>
+
 
 
 
