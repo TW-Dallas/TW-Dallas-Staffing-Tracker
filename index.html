@@ -166,8 +166,12 @@
         const s = status ? status.toLowerCase() : '';
 
         // 0. INELIGIBLE (New)
-        if (s.includes('ineligible') || s.includes('inactive') || s.includes('rejected')) { 
+        if (s.includes('ineligible') || s.includes('rejected')) { 
             return { pct: 100, color: 'grey', label: 'Ineligible' }; 
+        }
+        // 0.5. INACTIVE (New Block)
+        if (sLower.includes('inactive')) { 
+            return { pct: 100, color: 'lightgrey', label: 'Inactive' }; // Maybe a lighter grey?
         }
         
         // 1. HIRED
@@ -400,6 +404,7 @@
 </script>
 </body>
 </html>
+
 
 
 
