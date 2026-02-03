@@ -265,20 +265,18 @@
             const sLower = item.status ? item.status.toLowerCase() : '';
             let cardClass = 'status-blue'; // Default
             
-            // Check Inactive FIRST (so it overrides generic checks if needed)
+            // Check Inactive FIRST
             if (sLower.includes('inactive')) {
-                return { pct: 100, color: 'grey', label: 'Inactive' };
+                cardClass = 'status-gray'; // <--- SET THE CLASS
             }
-            
             // Then check Ineligible
-            if (sLower.includes('ineligible') || sLower.includes('rejected')) {
-                return { pct: 100, color: 'grey', label: 'Ineligible' };
+            else if (sLower.includes('ineligible') || sLower.includes('rejected')) {
+                cardClass = 'status-gray'; // <--- SET THE CLASS
             }
-
             // 2. Check for Red (Hold)
             else if (sLower.includes('hold')) {
                 cardClass = 'status-red';
-            } 
+            }
             // 3. Check for Green (Hired)
             else if (sLower.includes('hired')) {
                 cardClass = 'status-green';
@@ -410,4 +408,5 @@
 </script>
 </body>
 </html>
+
 
