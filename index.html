@@ -166,7 +166,7 @@
         const s = status ? status.toLowerCase() : '';
 
         // 0. INELIGIBLE (New)
-        if (s.includes('ineligible, inactive') || s.includes('rejected')) { 
+        if (s.includes('ineligible') || s.includes('inactive') || s.includes('rejected')) { 
             return { pct: 100, color: 'grey', label: 'Ineligible' }; 
         }
         
@@ -400,6 +400,7 @@
 </script>
 </body>
 </html>
+
 
 
 
